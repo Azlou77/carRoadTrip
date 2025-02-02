@@ -11,12 +11,14 @@ public class Car {
 
     // Methods
     public void init(int power, String numberRegisterCar) {
+        System.out.println(power + "\n" + numberRegisterCar);
 
     }
 
-    public float consume() {
-        int usedFuel = 9;
+    public float consume(float usedFuel, float numberKm) {
+        this.numberKm = numberKm;
         consumption = (usedFuel * 100) / numberKm;
+        System.out.println("Consumption: " + consumption + " L/100km");
         return consumption;
     }
 
@@ -34,8 +36,10 @@ public class Car {
     // private void fillUp() {
 
     // }
-    private float calculatePrice() {
-        float price = consumption * 1;
+
+    public float calculatePrice(float fuelCostPerLiter) {
+        float price = consumption * fuelCostPerLiter;
+        System.out.println("Price: $" + price);
         return price;
     }
 
@@ -44,7 +48,12 @@ public class Car {
     }
 
     public static void main(String[] args) {
-        drive();
+        Car myCar = new Car();
+        myCar.init(150, "ABC123");
+        myCar.drive(100, 128);
+        myCar.stop();
+        myCar.consume(9, 100);
+        myCar.calculatePrice(1);
 
     }
 
