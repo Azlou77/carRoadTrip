@@ -4,8 +4,9 @@ import java.util.Scanner;
 public class Car {
     // Attributs
     private String numberRegisterCar;
-    private float price, consumption, speed, capacityFuelCar;
-    private int numberKm, power;
+    private float price, consumption, speed, capacityFuelCar, totalFuelUsed;;
+    private int numberKm, power, counterCarBreakdown;
+    private boolean isBreakdown;
     private static final double COEFFMULTI_POWER = 0.15;
     private static final int FUEL_PRICE = 1;
 
@@ -33,9 +34,23 @@ public class Car {
         numberKm = 100; // Mise à jour de la variable d'instance numberKm
         System.out.println("I drive for " + numberKm + " kilometers at speed " + getSpeed() + " km/h");
     }
-    // public void stop() {
-    // System.out.println("The car stop");
-    // }
+
+    public void isBreakdown() {
+        Scanner car = new Scanner(System.in);
+        System.out.println("Is your car broken down? (true/false)");
+        String enterText = car.nextLine();
+        if (enterText.equalsIgnoreCase("true")) {
+            isBreakdown = true;
+            System.out.println("How many breakdowns does your car have?");
+            int enterNumber = car.nextInt();
+            counterCarBreakdown = enterNumber;
+            System.out.println("Number of breakdowns: " + counterCarBreakdown);
+        } else if (enterText.equalsIgnoreCase("false")) {
+            isBreakdown = false;
+            counterCarBreakdown = 0;
+            System.out.println("Number of breakdowns: " + counterCarBreakdown);
+        }
+    }
 
     public void consume() {
         if (speed <= 80) {
@@ -55,8 +70,12 @@ public class Car {
     }
 
     public void calculatePrice() {
-        float totalFuelUsed = (consumption / 100) * numberKm;
-        price = totalFuelUsed * FUEL_PRICE;
+        totalFuelUsed = (consumption / 100) * numberKm;
+        if (isBreakdown) {
+            price = totalFuelUsed * FUEL_PRICE + counterCarBreakdown * 100;
+        } else {
+            price = totalFuelUsed * FUEL_PRICE;
+        }
         System.out.println("Price: $" + price);
     }
 
@@ -65,6 +84,7 @@ public class Car {
         myCar.initCar(6, "ABC123");
         myCar.getSpeed();
         myCar.drive();
+        myCar.isBreakdown();
         myCar.consume();
         myCar.calculatePrice();
 
