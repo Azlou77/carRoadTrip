@@ -4,56 +4,69 @@ import java.util.Scanner;
 public class Car {
     // Attributs
     private String numberRegisterCar;
-    private int power;
-    private float cost;
-    private float numberKm;
-    private float consumption;
+    private float price, consumption, speed, capacityFuelCar;
+    private int numberKm, power;
+    private static final double COEFFMULTI_POWER = 0.15;
+    private static final int FUEL_PRICE = 1;
 
-    // Methods
-    public void init(int power, String numberRegisterCar) {
+    public void initCar(int power, String numberRegisterCar) {
         System.out.println(power + "\n" + numberRegisterCar);
 
     }
 
-    public float consume(float usedFuel, float numberKm) {
-        this.numberKm = numberKm;
-        consumption = (usedFuel * 100) / numberKm;
-        System.out.println("Consumption: " + consumption + " L/100km");
-        return consumption;
+    public void checkQuantityFuelCar() {
+        if (power < 7) {
+            capacityFuelCar = 40;
+        } else {
+            capacityFuelCar = 60;
+        }
     }
 
-    public void drive(float numberKm, float speed) {
-        speed = 128;
-        numberKm = 100;
-        System.out.println("I drive for" + numberKm + "kilometers " + "at speed" + speed + "km/h");
-
+    public float getSpeed() {
+        Scanner car = new Scanner(System.in);
+        System.out.println("Enter a speed");
+        speed = car.nextInt();
+        return speed;
     }
 
-    // private void breakdown() {
-
+    public void drive() {
+        numberKm = 100; // Mise à jour de la variable d'instance numberKm
+        System.out.println("I drive for " + numberKm + " kilometers at speed " + getSpeed() + " km/h");
+    }
+    // public void stop() {
+    // System.out.println("The car stop");
     // }
 
-    // private void fillUp() {
+    public void consume() {
+        if (speed <= 80) {
+            consumption = 6;
+        } else if (speed <= 100) {
+            consumption = 7;
+        } else if (speed <= 120) {
+            consumption = 8;
+        } else if (speed <= 130) {
+            consumption = 9;
+        } else {
+            // Value default if speed off the array
+            consumption = -1;
+        }
+        consumption = (float) (consumption + 0.15 * COEFFMULTI_POWER);
+        System.out.println("My consumption is " + consumption + "L/Km");
+    }
 
-    // }
-
-    public float calculatePrice(float fuelCostPerLiter) {
-        float price = consumption * fuelCostPerLiter;
+    public void calculatePrice() {
+        float totalFuelUsed = (consumption / 100) * numberKm;
+        price = totalFuelUsed * FUEL_PRICE;
         System.out.println("Price: $" + price);
-        return price;
-    }
-
-    private void stop() {
-        System.out.println("The car stop");
     }
 
     public static void main(String[] args) {
         Car myCar = new Car();
-        myCar.init(150, "ABC123");
-        myCar.drive(100, 128);
-        myCar.stop();
-        myCar.consume(9, 100);
-        myCar.calculatePrice(1);
+        myCar.initCar(6, "ABC123");
+        myCar.getSpeed();
+        myCar.drive();
+        myCar.consume();
+        myCar.calculatePrice();
 
     }
 

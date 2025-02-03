@@ -4,13 +4,16 @@ import java.util.Scanner;
 public class Tank {
     // Attributs
     private String numberRegisterCar;
-    private int power;
     private float cost;
-    private float capacityFuel;
 
     // Methods
     public void init(int power, String numberRegisterCar) {
-        int capacityFuel = 40;
+        float capacityFuelCar;
+        if (power < 7) {
+            capacityFuelCar = 40;
+        } else {
+            capacityFuelCar = 60;
+        }
     }
 
     public void reduce(float conso, float numberKm) {
