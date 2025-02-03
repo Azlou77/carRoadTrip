@@ -14,3 +14,9 @@ Deuxième scénario = ajoutez la puissance (nombre de chevaux d'un voiture) au p
 - Nous calculons le prix avec le carburant consommé + le taux qui dépend de la puissance
 
 Troisième scénario = ajouter le dépannage + plein d'essence au prix
+
+- Avant on vérifie le quantité d'esssence en fonction de la puissance.
+- Ajoutez la vitesse à laquelle vous souhaitez conduire. Vitesse 128 km/h = vitesse moyenne
+- Ensuite, conduisez pendant 100 km à la vitesse que vous choisissez
+- Vérifier si la voiture est en panne avec la fonction isBreakDown()
+- Nous calculons le prix avec le carburant consommé + le taux qui dépend de la puissance + le nombre de panne
