@@ -1,10 +1,18 @@
+package Interface1;
 
-import java.util.Scanner;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Car {
     // Attributs
     private String numberRegisterCar;
-    private float price, consumption, speed, capacityFuelCar, totalFuelUsed;;
+    private float price, consumption, speed, capacityFuelCar, totalFuelUsed;
     private int numberKm, power, counterCarBreakdown;
     private boolean isBreakdown;
     private static final double COEFFMULTI_POWER = 0.15;
@@ -12,7 +20,6 @@ public class Car {
 
     public void initCar(int power, String numberRegisterCar) {
         System.out.println(power + "\n" + numberRegisterCar);
-
     }
 
     public void checkQuantityFuelCar() {
@@ -24,70 +31,44 @@ public class Car {
     }
 
     public float getSpeed() {
-        Scanner car = new Scanner(System.in);
-        System.out.println("Enter a speed");
-        speed = car.nextInt();
+        JFrame frame = new JFrame("Input Speed");
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("Enter a speed: ");
+        JTextField textField = new JTextField(10);
+        JButton button = new JButton("Submit");
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                speed = Float.parseFloat(textField.getText());
+                JOptionPane.showMessageDialog(frame, "La vitesse saisie est : " + speed);
+                frame.dispose();
+            }
+        });
+
+        panel.add(label);
+        panel.add(textField);
+        panel.add(button);
+        frame.add(panel);
+
+        frame.setSize(300, 100);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        // Wait until the frame is disposed
+        while (frame.isShowing()) {
+            // No operation, just wait
+        }
+
         return speed;
     }
 
-    public void drive() {
-        numberKm = 100; // Mise à jour de la variable d'instance numberKm
-        System.out.println("I drive for " + numberKm + " kilometers at speed " + getSpeed() + " km/h");
-    }
-
-    public void isBreakdown() {
-        Scanner car = new Scanner(System.in);
-        System.out.println("Is your car broken down? (true/false)");
-        String enterText = car.nextLine();
-        if (enterText.equalsIgnoreCase("true")) {
-            isBreakdown = true;
-            System.out.println("How many breakdowns does your car have?");
-            int enterNumber = car.nextInt();
-            counterCarBreakdown = enterNumber;
-            System.out.println("Number of breakdowns: " + counterCarBreakdown);
-        } else if (enterText.equalsIgnoreCase("false")) {
-            isBreakdown = false;
-            counterCarBreakdown = 0;
-            System.out.println("Number of breakdowns: " + counterCarBreakdown);
-        }
-    }
-
-    public void consume() {
-        if (speed <= 80) {
-            consumption = 6;
-        } else if (speed <= 100) {
-            consumption = 7;
-        } else if (speed <= 120) {
-            consumption = 8;
-        } else if (speed <= 130) {
-            consumption = 9;
-        } else {
-            // Value default if speed off the array
-            consumption = -1;
-        }
-        consumption = (float) (consumption + 0.15 * COEFFMULTI_POWER);
-        System.out.println("My consumption is " + consumption + "L/Km");
-    }
-
-    public void calculatePrice() {
-        totalFuelUsed = (consumption / 100) * numberKm;
-        if (isBreakdown) {
-            price = totalFuelUsed * FUEL_PRICE + counterCarBreakdown * 100;
-        } else {
-            price = totalFuelUsed * FUEL_PRICE;
-        }
-        System.out.println("Price: $" + price);
-    }
-
+    // Méthode principale pour lancer l'application
     public static void main(String[] args) {
-        Car myCar = new Car();
-        myCar.initCar(6, "ABC123");
-        myCar.getSpeed();
-        myCar.drive();
-        myCar.isBreakdown();
-        myCar.consume();
-        myCar.calculatePrice();
-
+        Car car = new Car();
+        car.initCar(120, "1234-AB-56");
+        car.checkQuantityFuelCar();
+        float speed = car.getSpeed();
+        System.out.println("La vitesse saisie est : " + speed);
     }
-
 }
