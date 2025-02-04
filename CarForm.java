@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CarForm extends JFrame {
-    private JTextField numberRegisterField, powerField, speedField, kmField, breakdownField;
+    private JTextField numberRegisterField, powerField, speedField, kmField;
     private JButton submitButton;
     private JLabel drivLabel, capacityFuelLabel, consumptionLabel, priceLabel, breakdownLabel;
 
@@ -12,7 +12,7 @@ public class CarForm extends JFrame {
         // Création du formulaire
         setTitle("Car Information Form");
         setSize(400, 500);
-        setLayout(new GridLayout(11, 2));
+        setLayout(new GridLayout(12, 1));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Numéro de matriculation
@@ -35,11 +35,6 @@ public class CarForm extends JFrame {
         kmField = new JTextField();
         add(kmField);
 
-        // Nombre de pannes
-        add(new JLabel("Nombre de pannes:"));
-        breakdownField = new JTextField();
-        add(breakdownField);
-
         // Bouton de soumission
         submitButton = new JButton("Soumettre");
         add(new JLabel()); // Espace vide pour l'alignement du bouton
@@ -48,23 +43,18 @@ public class CarForm extends JFrame {
         // Labels pour afficher les résultats
         drivLabel = new JLabel("Drive Info: ");
         add(drivLabel);
-        add(new JLabel()); // Espace vide
 
         capacityFuelLabel = new JLabel("Fuel Capacity: ");
         add(capacityFuelLabel);
-        add(new JLabel()); // Espace vide
-
-        consumptionLabel = new JLabel("Consumption: ");
-        add(consumptionLabel);
-        add(new JLabel()); // Espace vide
-
-        priceLabel = new JLabel("Price: ");
-        add(priceLabel);
-        add(new JLabel()); // Espace vide
 
         breakdownLabel = new JLabel("Number of Breakdowns: ");
         add(breakdownLabel);
-        add(new JLabel()); // Espace vide
+
+        consumptionLabel = new JLabel("Consumption: ");
+        add(consumptionLabel);
+
+        priceLabel = new JLabel("Price: ");
+        add(priceLabel);
 
         // Action de soumission
         submitButton.addActionListener(new ActionListener() {
@@ -74,21 +64,13 @@ public class CarForm extends JFrame {
                 int power = Integer.parseInt(powerField.getText());
                 float speed = Float.parseFloat(speedField.getText());
                 int km = Integer.parseInt(kmField.getText());
-                int breakdowns = Integer.parseInt(breakdownField.getText());
 
                 // Création d'une instance de Car avec les valeurs saisies
                 Car myCar = new Car(power, numberRegister, speed, km);
-                myCar.setBreakdown(breakdowns > 0, breakdowns);
                 String driveInfo = myCar.drive();
                 float consumption = myCar.consume();
+                int breakdowns = myCar.isBreakdown();
                 float price = myCar.calculatePrice();
-
-                // Affichage des informations saisies
-                JOptionPane.showMessageDialog(CarForm.this, "Numéro de matriculation : " + numberRegister +
-                        "\nPuissance : " + power +
-                        "\nVitesse : " + speed +
-                        "\nNombre de kilomètres à parcourir : " + km +
-                        "\nNombre de pannes : " + breakdowns);
 
                 // Mise à jour des labels avec les résultats
                 drivLabel.setText("Drive Info: " + driveInfo);
@@ -96,6 +78,7 @@ public class CarForm extends JFrame {
                 consumptionLabel.setText("Consumption: " + consumption + " L/100km");
                 priceLabel.setText("Price: $" + price);
                 breakdownLabel.setText("Number of Breakdowns: " + breakdowns);
+
             }
         });
 
