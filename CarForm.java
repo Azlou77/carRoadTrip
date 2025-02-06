@@ -68,14 +68,14 @@ public class CarForm extends JFrame {
                 // Création d'une instance de Car avec les valeurs saisies
                 Car myCar = new Car(power, numberRegister, speed, km);
                 String driveInfo = myCar.drive();
-                float consumption = myCar.consume();
+                float totalFuelUsed = myCar.consume();
                 int breakdowns = myCar.isBreakdown();
                 float price = myCar.calculatePrice();
 
                 // Mise à jour des labels avec les résultats
                 drivLabel.setText("Drive Info: " + driveInfo);
                 capacityFuelLabel.setText("Fuel Capacity: " + myCar.getCapacityFuelCar() + " liters");
-                consumptionLabel.setText("Consumption: " + consumption + " L/100km");
+                consumptionLabel.setText("Total Fuel Used: " + totalFuelUsed + " liters");
                 priceLabel.setText("Price: $" + price);
                 breakdownLabel.setText("Number of Breakdowns: " + breakdowns);
 

@@ -3,8 +3,8 @@ public class Car {
     private String numberRegisterCar;
     private float price, consumption, speed, capacityFuelCar, totalFuelUsed;
     private int numberKm, power, counterCarBreakdown;
-    private static final double COEFFMULTI_POWER = 0.15;
-    private static final int FUEL_PRICE = 1;
+    private double COEFFMULTI_POWER;
+    private final int FUEL_PRICE = 1;
 
     public Car(int power, String numberRegisterCar, float speed, int numberKm) {
         this.power = power;
@@ -26,6 +26,13 @@ public class Car {
         return capacityFuelCar;
     }
 
+    public double addCoefficientPower() {
+        if (power > 4) {
+            COEFFMULTI_POWER *= 2;
+        }
+        return COEFFMULTI_POWER;
+    }
+
     public String drive() {
         return "I drive for " + numberKm + " kilometers at speed " + speed + " km/h";
     }
@@ -42,20 +49,20 @@ public class Car {
 
     public float consume() {
         if (speed <= 80) {
-            consumption = 6;
+            consumption = 0.06f;
         } else if (speed <= 100) {
-            consumption = 7;
+            consumption = 0.07f;
         } else if (speed <= 120) {
-            consumption = 8;
+            consumption = 0.08f;
         } else if (speed <= 130) {
-            consumption = 9;
+            consumption = 0.09f;
         } else {
             // Valeur par défaut si la vitesse est hors de la plage spécifiée
-            consumption = -1;
+            consumption = -1f;
         }
-        consumption = (float) (consumption + 0.15 * COEFFMULTI_POWER);
-        totalFuelUsed = (consumption / 100) * numberKm;
-        return consumption;
+        consumption = (float) (consumption + COEFFMULTI_POWER);
+        totalFuelUsed = consumption * numberKm;
+        return totalFuelUsed;
     }
 
     public float calculatePrice() {
