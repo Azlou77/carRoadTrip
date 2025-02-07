@@ -5,7 +5,7 @@ public class Car {
     private int power;
     private final int FUEL_PRICE = 1;
     private Reservoir reservoir;
-    private Counter counter;
+    Counter counter;
 
     public Car(int power, String numberRegisterCar) {
         this.power = power;
