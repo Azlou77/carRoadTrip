@@ -1,70 +1,53 @@
 public class Car {
     // Attributs
     private String numberRegisterCar;
-    private float price, consumption, speed, capacityFuelCar, totalFuelUsed;
-    private int numberKm, power, counterCarBreakdown;
-    private double COEFFMULTI_POWER;
+    private float price, totalFuelUsed;
+    private int power;
     private final int FUEL_PRICE = 1;
+    private Reservoir reservoir;
+    private Counter counter;
 
-    public Car(int power, String numberRegisterCar, float speed, int numberKm) {
+    public Car(int power, String numberRegisterCar) {
         this.power = power;
         this.numberRegisterCar = numberRegisterCar;
-        this.speed = speed;
-        this.numberKm = numberKm;
-        getCapacityFuelCar();
+        this.reservoir = new Reservoir(power); // Initialisation de l'objet Reservoir
+        this.counter = new Counter();
     }
 
-    public float getCapacityFuelCar() {
-        if (power >= 4 && power <= 6) {
-            capacityFuelCar = 40;
-        } else if (power >= 7 && power <= 200) {
-            capacityFuelCar = 60;
-        }
-        return capacityFuelCar;
+    public void setSpeed(int speed) {
+        this.counter.setSpeed(speed);
     }
 
-    public double addCoefficientPower() {
-        if (power > 4) {
-            COEFFMULTI_POWER *= 2;
-        }
-        return COEFFMULTI_POWER;
+    public void setNumberKm(int numberKm) {
+        this.counter.setNumberKm(numberKm);
     }
 
     public String drive() {
-        return "I drive for " + numberKm + " kilometers at speed " + speed + " km/h";
+        return "I drive for " + counter.getNumberKm() + " kilometers at speed " + counter.getSpeed() + " km/h";
     }
 
-    public int isBreakdown() {
+    public int getBreakdown() {
         int breakdowns = 0;
-        float fuelNeeded = totalFuelUsed;
-        while (fuelNeeded > capacityFuelCar) {
+        float fuelNeeded = reservoir.getTotalFuelUsed();
+        while (fuelNeeded > reservoir.getCapacityFuelCar()) {
             breakdowns++;
-            fuelNeeded -= capacityFuelCar;
+            fuelNeeded -= reservoir.getCapacityFuelCar();
         }
         return breakdowns;
     }
 
+    public float calculatePrice() {
+        int breakdown = getBreakdown();
+        price = reservoir.getTotalFuelUsed() * FUEL_PRICE + (breakdown * 100);
+        return price;
+    }
+
     public float consume() {
-        if (speed > 1 && speed <= 80) {
-            consumption = 0.06f;
-        } else if (speed > 80 && speed <= 100) {
-            consumption = 0.07f;
-        } else if (speed > 100 && speed <= 120) {
-            consumption = 0.08f;
-        } else if (speed > 120 && speed <= 130) {
-            consumption = 0.09f;
-        } else {
-            // Valeur par défaut si la vitesse est hors de la plage spécifiée
-            consumption = -1f;
-        }
-        consumption = (float) (consumption + COEFFMULTI_POWER);
-        totalFuelUsed = consumption * numberKm;
+        totalFuelUsed = reservoir.consume(counter.getSpeed(), counter.getNumberKm());
         return totalFuelUsed;
     }
 
-    public float calculatePrice() {
-        int breakdowns = isBreakdown();
-        price = totalFuelUsed * FUEL_PRICE + (breakdowns * 100) + (breakdowns * capacityFuelCar);
-        return price;
+    public int getCapacityFuelCar() {
+        return reservoir.getCapacityFuelCar();
     }
 }

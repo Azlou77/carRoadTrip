@@ -1,32 +1,25 @@
 public class Counter {
-    private float speed;
-    private float numberKm;
+    private int speed;
+    private int numberKm;
 
-    public void init() {
-        speed = 0;
-        numberKm = 0;
-
+    public Counter() {
+        this.speed = 0;
+        this.numberKm = 0;
     }
 
-    public float getSpeed() {
+    public int getSpeed() {
         return speed;
-
     }
 
-    public float setSpeed(float newSpeed) {
+    public void setSpeed(int newSpeed) {
         this.speed = newSpeed;
-        return newSpeed;
-
     }
 
-    public float getNumberKm() {
+    public int getNumberKm() {
         return numberKm;
-
     }
 
-    public float setNumberKm(float newNumberKm) {
+    public void setNumberKm(int newNumberKm) {
         this.numberKm = newNumberKm;
-        return newNumberKm;
-
     }
 }

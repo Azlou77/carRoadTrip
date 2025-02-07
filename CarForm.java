@@ -50,7 +50,7 @@ public class CarForm extends JFrame {
         breakdownLabel = new JLabel("Number of Breakdowns: ");
         add(breakdownLabel);
 
-        consumptionLabel = new JLabel("Consumption: ");
+        consumptionLabel = new JLabel("Total Fuel Used: ");
         add(consumptionLabel);
 
         priceLabel = new JLabel("Price: ");
@@ -62,14 +62,16 @@ public class CarForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String numberRegister = numberRegisterField.getText();
                 int power = Integer.parseInt(powerField.getText());
-                float speed = Float.parseFloat(speedField.getText());
+                int speed = Integer.parseInt(speedField.getText());
                 int km = Integer.parseInt(kmField.getText());
 
                 // Création d'une instance de Car avec les valeurs saisies
-                Car myCar = new Car(power, numberRegister, speed, km);
+                Car myCar = new Car(power, numberRegister);
+                myCar.setSpeed(speed);
+                myCar.setNumberKm(km);
                 String driveInfo = myCar.drive();
                 float totalFuelUsed = myCar.consume();
-                int breakdowns = myCar.isBreakdown();
+                int breakdowns = myCar.getBreakdown();
                 float price = myCar.calculatePrice();
 
                 // Mise à jour des labels avec les résultats
@@ -78,7 +80,6 @@ public class CarForm extends JFrame {
                 consumptionLabel.setText("Total Fuel Used: " + totalFuelUsed + " liters");
                 priceLabel.setText("Price: $" + price);
                 breakdownLabel.setText("Number of Breakdowns: " + breakdowns);
-
             }
         });
 
